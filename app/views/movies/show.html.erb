@@ -1,0 +1,64 @@
+<section class="movie-details">
+  <div class="image">
+    <%= image_tag @movie.image_file_name %>
+    <div class="faves">
+      <%= fave_or_unfave_button(@movie, @favorite)%>
+      <div class="count">
+        <%= @fans.size %>
+      </div>
+    </div>
+  </div>
+  <div class="details">
+    <h1><%= @movie.title %></h1>
+    <h2>
+      <%= year_of(@movie) %> &bull; <%= @movie.rating %>
+    </h2>
+    <div class="reviews">
+      <%= average_rating(@movie) %>
+      <%= link_to pluralize(@movie.reviews.count, "review"), movie_reviews_path(@movie) %>
+    </div>
+    <p>
+      <%= @movie.description %>
+    </p>
+    <table>
+      <tr>
+        <th>Director:</th>
+        <td><%= @movie.director %></td>
+      </tr>
+      <tr>
+        <th>Duration:</th>
+        <td><%= @movie.duration %></td>
+      </tr>
+      <tr>
+        <th>Total Gross:</th>
+        <td><%= total_gross(@movie) %></td>
+      </tr>
+    </table>
+    <%= link_to "Write a Review", new_movie_review_path(@movie)%>
+  </div>
+  <aside>
+  <% if @fans.present? %>
+    <h4>Fans</h4>
+    <ul>
+      <% @fans.each do |user|%>
+        <li><%= link_to user.name, user %></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <% if @genres.present? %>
+    <h4>Genres</h4>
+    <ul>
+      <% @genres.each do |genre| %>
+        <li><%= genre.name%></li>
+      <% end %>
+    </ul>
+  <% end %>
+  </aside>
+</section>
+
+<% if current_user_admin?%>
+  <section class="admin">
+    <%= link_to "Edit", edit_movie_path(@movie), class: "button"%>
+    <%= link_to "Delete", movie_path(@movie), class: "button", method: :delete, data:{confirm: "Are you sure?"} %>
+  </section>
+<% end %>

@@ -1,0 +1,18 @@
+<h1>Reviews for <%= link_to @movie.title, movie_path(@movie) %> </h1>
+<ul>
+  <% @reviews.each do |rev| %>
+    <li>
+      <%= pluralize(rev.stars, 'star') %>
+      <p>
+        <%= link_to rev.user.name, rev.user %>
+        <span class="date">
+          <%= time_ago_in_words(rev.created_at) %> ago
+        </span>
+      </p>
+      <p>
+        <%= rev.comment %>
+      </p>
+      <%= link_to "Delete Review", [@movie,rev], method: :delete%>
+    </li>
+  <% end %>
+</ul>

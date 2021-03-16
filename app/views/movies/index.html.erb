@@ -1,0 +1,20 @@
+
+<% @movies.each do |movie| %>
+  <section class="movie">
+    <div class="image">
+      <%= image_tag movie.image_file_name %>
+    </div>
+    <div class="summary">
+      <h2><%= link_to movie.title, movie_path(movie) %></h2>
+      <h3><%= total_gross(movie) %></h3>
+      <p><%= pluralize(movie.reviews.count, "Review") %></p>
+      <p><%= truncate(movie.description, length: 40, separator: ' ') %></p>
+    </div>
+  </section>
+<% end %>
+
+<% if current_user_admin? %>
+  <section class="admin">
+    <%= link_to "Add New Movie", new_movie_path, class: "button" %>
+  </section>
+<% end %>
